@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Gallery - Мои изображения</title>
+    <link rel="stylesheet" href="/web/css/style.css">
+</head>
+<body>
+    
+    <main class="container">
+        <section class="filters">
+            <h2>Мои изображения</h2>
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label for="category-filter">Категория:</label>
+                    <select id="category-filter">
+                        <option value="">Все категории</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="search-filter">Поиск:</label>
+                    <input type="text" id="search-filter" placeholder="Поиск по названию...">
+                </div>
+            </div>
+        </section>
+
+        <section class="gallery">
+            <div id="loading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Загрузка...</p>
+            </div>
+            <div id="error" class="error" style="display: none;"></div>
+            <div id="gallery-grid" class="gallery-grid"></div>
+            <div id="empty" class="empty" style="display: none;">
+                <p>У вас пока нет изображений</p>
+                <a href="/web/pages/upload.html" class="btn-primary" style="display: inline-block; margin-top: 20px;">Загрузить первое фото</a>
+            </div>
+        </section>
+    </main>
+    
+    <script src="/web/components/header.js"></script>
+    <script src="/web/components/footer.js"></script>
+    <script src="/web/js/my-images.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Gallery - Редактирование</title>
+    <link rel="stylesheet" href="/web/css/style.css">
+</head>
+<body>
+    
+    <main class="container">
+        <div class="upload-container">
+            <h2>Редактирование изображения</h2>
+            
+            <div id="edit-message" class="message"></div>
+            
+            <form id="edit-form">
+                <div class="form-group">
+                    <label for="title">Название *</label>
+                    <input type="text" id="title" name="title" required maxlength="200">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Описание</label>
+                    <textarea id="description" name="description" rows="4"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Категория *</label>
+                    <select id="category" name="category_id" required>
+                        <option value="">Загрузка категорий...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Текущее изображение</label>
+                    <div id="current-image-container" class="upload-preview">
+                        <img id="current-image" src="#" alt="Текущее изображение">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="image">Новое изображение (оставьте пустым, если не хотите менять)</label>
+                    <input type="file" id="image" name="image" accept="image/jpeg,image/png,image/webp">
+                    <div class="file-info">
+                        Максимальный размер: 5 MB. Допустимые форматы: JPG, PNG, WEBP
+                    </div>
+                </div>
+
+                <div id="preview-container" class="upload-preview" style="display: none;">
+                    <img id="image-preview" src="#" alt="Предпросмотр">
+                </div>
+
+                <div class="progress-bar" id="progress-bar">
+                    <div class="progress-bar-fill" id="progress-fill"></div>
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" class="btn-primary" id="submit-btn">Сохранить изменения</button>
+                    <button type="button" class="btn-secondary" onclick="window.location.href='/web/pages/my-images.html'">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </main>
+    
+    <script src="/web/components/header.js"></script>
+    <script src="/web/components/footer.js"></script>
+    <script src="/web/js/edit-image.js"></script>
+</body>
+</html>

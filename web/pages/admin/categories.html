@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Gallery - Управление категориями</title>
+    <link rel="stylesheet" href="/web/css/style.css">
+</head>
+<body>    
+    <main class="container">
+        <div class="admin-container">
+            <h2>Управление категориями</h2>
+            
+            <div class="add-category-section">
+                <h3>Добавить категорию</h3>
+                <div class="form-group">
+                    <input type="text" id="new-category-name" placeholder="Название категории" maxlength="100">
+                    <button id="add-category-btn" class="btn-primary">Добавить</button>
+                </div>
+            </div>
+
+            <div class="categories-list">
+                <h3>Список категорий</h3>
+                <div id="loading" class="loading" style="display: none;">Загрузка...</div>
+                <div id="error" class="error" style="display: none;"></div>
+                <div id="categories-table" class="table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Название</th>
+                                <th>Количество изображений</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categories-list-body">
+                            <tr><td colspan="4" class="empty">Нет категорий</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/web/components/header.js"></script>
+    <script src="/web/components/footer.js"></script>
+    <script src="/web/js/admin-categories.js"></script>
+</body>
+</html>

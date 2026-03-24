@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Gallery - Главная</title>
+    <link rel="stylesheet" href="/web/css/style.css">
+</head>
+<body>
+    
+    <main class="container">
+        <section class="filters">
+            <h2>Фильтры</h2>
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label for="category-filter">Категория:</label>
+                    <select id="category-filter">
+                        <option value="">Все категории</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="search-filter">Поиск:</label>
+                    <input type="text" id="search-filter" placeholder="Поиск по названию...">
+                </div>
+                <div class="filter-group">
+                    <label for="author-filter">Автор:</label>
+                    <select id="author-filter">
+                        <option value="">Все авторы</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="gallery">
+            <h2>Галерея изображений</h2>
+            <div id="loading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Загрузка...</p>
+            </div>
+            <div id="error" class="error" style="display: none;"></div>
+            <div id="gallery-grid" class="gallery-grid"></div>
+            <div id="empty" class="empty" style="display: none;">
+                <p>Нет изображений</p>
+            </div>
+        </section>
+    </main>
+    
+    <script src="/web/components/header.js"></script>
+    <script src="/web/components/footer.js"></script>
+    <script src="/web/js/gallery.js"></script>
+</body>
+</html>

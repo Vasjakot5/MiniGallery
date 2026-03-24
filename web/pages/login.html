@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Gallery - Вход</title>
+    <link rel="stylesheet" href="/web/css/style.css">
+</head>
+<body>
+    
+    <main class="container">
+        <div class="auth-container">
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="switchTab('login')">Вход</div>
+                <div class="auth-tab" onclick="switchTab('register')">Регистрация</div>
+            </div>
+
+            <div id="login-form" class="auth-form active">
+                <h2>Вход в галерею</h2>
+                <div id="login-error" class="error-message"></div>
+                <div class="form-group">
+                    <label for="login-username">Выберите пользователя:</label>
+                    <select id="login-username" required>
+                        <option value="">Загрузка пользователей...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Пароль:</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button class="btn-primary" onclick="handleLogin()">Войти</button>
+            </div>
+
+            <div id="register-form" class="auth-form">
+                <h2>Регистрация</h2>
+                <div id="register-error" class="error-message"></div>
+                <div id="register-success" class="success-message"></div>
+                <div class="form-group">
+                    <label for="register-username">Имя пользователя:</label>
+                    <input type="text" id="register-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Пароль:</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                <button class="btn-primary" onclick="handleRegister()">Зарегистрироваться</button>
+            </div>
+        </div>
+    </main>
+    
+    <script src="/web/components/header.js"></script>
+    <script src="/web/components/footer.js"></script>
+    <script src="/web/js/auth.js"></script>
+</body>
+</html>
