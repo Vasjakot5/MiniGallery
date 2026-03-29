@@ -1,0 +1,631 @@
+{
+  "info": {
+    "_postman_id": "66db5a2e-c4be-4a3a-86d2-89bc02cc0025",
+    "name": "MiniGallery",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "43102276"
+  },
+  "item": [
+    {
+      "name": "Админ",
+      "item": [
+        {
+          "name": "Создание категорий",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Цветы\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Удаление категории",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/categories/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categories",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Обновление категории",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Растения",
+                  "type": "text",
+                  "uuid": "b056a58a-92fc-4b28-99c5-a3a406dc7401"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/images/{{categoryId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "images",
+                "{{categoryId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Авторизация",
+      "item": [
+        {
+          "name": "Вход",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();\r",
+                  "pm.collectionVariables.set(\"token\", response.token);\r",
+                  "pm.collectionVariables.set(\"userId\", response.user.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "async function sha256(message) {\r",
+                  "    const msgBuffer = new TextEncoder().encode(message);\r",
+                  "    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);\r",
+                  "    const hashArray = Array.from(new Uint8Array(hashBuffer));\r",
+                  "    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');\r",
+                  "    return hashHex;\r",
+                  "}\r",
+                  "\r",
+                  "const plainPassword = pm.request.body?.raw ? JSON.parse(pm.request.body.raw).password : pm.variables.get(\"password\");\r",
+                  "\r",
+                  "if (plainPassword) {\r",
+                  "    sha256(plainPassword).then(hash => {\r",
+                  "        pm.variables.set(\"password_hash\", hash);\r",
+                  "        let body = JSON.parse(pm.request.body.raw);\r",
+                  "        body.password = hash;\r",
+                  "        pm.request.body.raw = JSON.stringify(body);\r",
+                  "    });\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"AdminMiniGallery\",\r\n    \"password\": \"AdminMiniGallery\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Выход",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Регистрация",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "async function sha256(message) {\r",
+                  "    const msgBuffer = new TextEncoder().encode(message);\r",
+                  "    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);\r",
+                  "    const hashArray = Array.from(new Uint8Array(hashBuffer));\r",
+                  "    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');\r",
+                  "    return hashHex;\r",
+                  "}\r",
+                  "\r",
+                  "const body = JSON.parse(pm.request.body.raw);\r",
+                  "\r",
+                  "if (body.password) {\r",
+                  "    sha256(body.password).then(hash => {\r",
+                  "        body.password = hash;\r",
+                  "        pm.request.body.raw = JSON.stringify(body);\r",
+                  "    });\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"User\",\r\n    \"password\": \"User\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Категории",
+      "item": [
+        {
+          "name": "Получение всех категорий",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Изображения",
+      "item": [
+        {
+          "name": "Удаление изображения",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/images/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "images",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Получение всех изображений",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/images",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "images"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Мои изображения",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/images?author={{userId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "images"
+              ],
+              "query": [
+                {
+                  "key": "author",
+                  "value": "{{userId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Загрузка изображения",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Мое тестовое фото",
+                  "description": "Название",
+                  "type": "text",
+                  "uuid": "08b84763-9b97-4fc1-b8ac-30b817b97b4b"
+                },
+                {
+                  "key": "description",
+                  "value": "Описание фото",
+                  "description": "Описание(не обязательно)",
+                  "type": "text",
+                  "uuid": "97c43775-435f-4bb3-8431-8bb799465d50"
+                },
+                {
+                  "key": "category_id",
+                  "value": "1",
+                  "description": "Категория",
+                  "type": "text",
+                  "uuid": "15d120d8-6516-4fc5-b5b9-1fac9b60c5a2"
+                },
+                {
+                  "key": "image",
+                  "description": "Файл изображения(Нажмите на Select files, чтобы загрузить изображение)",
+                  "type": "file",
+                  "uuid": "5b95c945-11a9-4262-b27b-d6d01c769959",
+                  "value": null
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/images/upload",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "images",
+                "upload"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Обновление изображения",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Мое тестовое фото",
+                  "description": "Название",
+                  "type": "text",
+                  "uuid": "08b84763-9b97-4fc1-b8ac-30b817b97b4b"
+                },
+                {
+                  "key": "description",
+                  "value": "Описание фото",
+                  "description": "Описание(не обязательно)",
+                  "type": "text",
+                  "uuid": "97c43775-435f-4bb3-8431-8bb799465d50"
+                },
+                {
+                  "key": "category_id",
+                  "value": "1",
+                  "description": "Категория",
+                  "type": "text",
+                  "uuid": "15d120d8-6516-4fc5-b5b9-1fac9b60c5a2"
+                },
+                {
+                  "key": "image",
+                  "description": "Файл изображения(Нажмите на Select files, чтобы загрузить изображение)",
+                  "type": "file",
+                  "uuid": "5b95c945-11a9-4262-b27b-d6d01c769959",
+                  "value": null
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/images/{{imageId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "images",
+                "{{imageId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "userId",
+      "value": ""
+    },
+    {
+      "key": "imageId",
+      "value": ""
+    },
+    {
+      "key": "categoryId",
+      "value": ""
+    }
+  ]
+}

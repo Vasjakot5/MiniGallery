@@ -7,7 +7,10 @@ async function loadHeader() {
             <header>
                 <div class="container">
                     <div class="logo">
-                        <h1>Mini Gallery</h1>
+                    <h1>
+                        <img src="/web/images/icon.png" alt="Gallery" style="width: 80px; height: 50px; vertical-align: middle; margin-right: 10px;">
+                        Mini Gallery
+                    </h1>
                     </div>
                     <nav>
                         <ul>

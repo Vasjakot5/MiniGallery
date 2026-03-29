@@ -54,12 +54,13 @@ async function loadMyImages() {
     const empty = document.getElementById('empty');
     const error = document.getElementById('error');
     
+    loading.style.display = 'block';
+    loading.innerHTML = '<div class="spinner"></div><p>Загрузка...</p>';
+    galleryGrid.style.display = 'none';
+    empty.style.display = 'none';
+    error.style.display = 'none';
+    
     try {
-        loading.style.display = 'block';
-        galleryGrid.style.display = 'none';
-        empty.style.display = 'none';
-        error.style.display = 'none';
-        
         const response = await fetch(url, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -70,7 +71,7 @@ async function loadMyImages() {
         
         loading.style.display = 'none';
         
-        if (images.length === 0) {
+        if (!images || !Array.isArray(images) || images.length === 0) {
             empty.style.display = 'block';
             return;
         }
@@ -86,9 +87,10 @@ async function loadMyImages() {
             card.className = 'image-card';
             card.dataset.id = img.id;
             card.innerHTML = `
-            <a href="/web/pages/view-image.html?id=${img.id}" style="text-decoration: none">
-                <img src="${img.file_path}" alt="${img.title}" 
-                     onerror="this.src='/web/images/placeholder.jpg'">
+                <a href="/web/pages/view-image.html?id=${img.id}">
+                    <img src="${img.file_path}" alt="${img.title}" 
+                         onerror="this.src='/web/images/placeholder.jpg'">
+                </a>
                 <div class="image-info">
                     <h3>${img.title}</h3>
                     <p>${img.description || 'Нет описания'}</p>
@@ -99,7 +101,6 @@ async function loadMyImages() {
                     <button class="btn btn-edit" onclick="editImage(${img.id})">Изменить</button>
                     <button class="btn btn-delete" onclick="deleteImage(${img.id})">Удалить</button>
                 </div>
-            </a>
             `;
             galleryGrid.appendChild(card);
         }

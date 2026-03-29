@@ -78,6 +78,7 @@ async function handleLogin() {
     const username = document.getElementById('login-username').value;
     const password = document.getElementById('login-password').value;
     const errorDiv = document.getElementById('login-error');
+    const submitBtn = document.querySelector('#login-form .btn-primary');
     
     if (!username || !password) {
         errorDiv.textContent = 'Выберите пользователя и введите пароль';
@@ -86,6 +87,10 @@ async function handleLogin() {
     }
     
     errorDiv.style.display = 'none';
+    
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Вход...';
     
     try {
         const hashedPassword = await hashPassword(password);
@@ -107,6 +112,8 @@ async function handleLogin() {
         window.location.href = '/web/pages/index.html';
         
     } catch (error) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
         errorDiv.textContent = error.message;
         errorDiv.style.display = 'block';
     }
@@ -117,6 +124,7 @@ async function handleRegister() {
     const password = document.getElementById('register-password').value;
     const errorDiv = document.getElementById('register-error');
     const successDiv = document.getElementById('register-success');
+    const submitBtn = document.querySelector('#register-form .btn-primary');
     
     if (!username || !password) {
         errorDiv.textContent = 'Заполните все поля';
@@ -126,6 +134,10 @@ async function handleRegister() {
     }
     
     errorDiv.style.display = 'none';
+    
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Регистрация...';
     
     try {
         const hashedPassword = await hashPassword(password);
@@ -144,6 +156,9 @@ async function handleRegister() {
             throw new Error('Ошибка при регистрации');
         }
         
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+        
         successDiv.textContent = 'Регистрация успешна! Теперь можете войти.';
         successDiv.style.display = 'block';
         
@@ -155,6 +170,8 @@ async function handleRegister() {
         setTimeout(() => switchTab('login'), 2000);
         
     } catch (error) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
         errorDiv.textContent = error.message;
         errorDiv.style.display = 'block';
         successDiv.style.display = 'none';

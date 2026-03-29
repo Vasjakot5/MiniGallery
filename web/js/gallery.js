@@ -35,50 +35,64 @@ async function loadImages() {
     const galleryGrid = document.getElementById('gallery-grid');
     const loading = document.getElementById('loading');
     const empty = document.getElementById('empty');
+    const error = document.getElementById('error');
+    
+    loading.style.display = 'block';
+    loading.innerHTML = '<div class="spinner"></div><p>Загрузка изображений...</p>';
+    galleryGrid.style.display = 'none';
+    empty.style.display = 'none';
+    error.style.display = 'none';
     
     try {
-        if (loading) loading.style.display = 'block';
-        if (galleryGrid) galleryGrid.style.display = 'none';
-        if (empty) empty.style.display = 'none';
-        
         const response = await fetch(url);
         const images = await response.json();
         
-        if (loading) loading.style.display = 'none';
+        loading.style.display = 'none';
         
-        if (galleryGrid) {
-            if (images.length === 0) {
-                galleryGrid.style.display = 'none';
-                if (empty) empty.style.display = 'block';
-            } else {
-                galleryGrid.style.display = 'grid';
-                galleryGrid.innerHTML = '';
-                
-                for (const img of images) {
-                    const authorName = await getAuthorName(img.uploaded_by);
-                    const categoryName = await getCategoryName(img.category_id);
-                    const date = new Date(img.created_at).toLocaleDateString('ru-RU');
-                    
-                    const div = document.createElement('div');
-                    div.className = 'image-card';
-                    div.innerHTML = `
-                    <a href="/web/pages/view-image.html?id=${img.id}" style="text-decoration: none">
-                        <img src="${img.file_path}" alt="${img.title}" 
-                             onerror="this.src='/web/images/placeholder.jpg'">
-                        <div class="image-info">
-                            <h3>${img.title}</h3>
-                            <p>${img.description || 'Нет описания'}</p>
-                            <span class="category">${categoryName}</span>
-                            <span class="author">${authorName} • ${date}</span>
-                        </div>
-                    </a>
-                    `;
-                    galleryGrid.appendChild(div);
-                }
-            }
+        // ПРОВЕРЯЕМ ЧТО images ЭТО МАССИВ
+        if (!images || !Array.isArray(images)) {
+            console.log('API вернул не массив:', images);
+            empty.style.display = 'block';
+            empty.innerHTML = '<p>Нет изображений</p>';
+            return;
         }
-    } catch {
-        if (loading) loading.style.display = 'none';
+        
+        if (images.length === 0) {
+            empty.style.display = 'block';
+            empty.innerHTML = '<p>Нет изображений</p>';
+            return;
+        }
+        
+        galleryGrid.style.display = 'grid';
+        galleryGrid.innerHTML = '';
+        
+        for (const img of images) {
+            const authorName = await getAuthorName(img.uploaded_by);
+            const categoryName = await getCategoryName(img.category_id);
+            const date = new Date(img.created_at).toLocaleDateString('ru-RU');
+            
+            const div = document.createElement('div');
+            div.className = 'image-card';
+            div.innerHTML = `
+                <a href="/web/pages/view-image.html?id=${img.id}">
+                    <img src="${img.file_path}" alt="${img.title}" 
+                         onerror="this.src='/web/images/placeholder.jpg'">
+                </a>
+                <div class="image-info">
+                    <h3>${img.title}</h3>
+                    <p>${img.description || 'Нет описания'}</p>
+                    <span class="category">${categoryName}</span>
+                    <span class="author">${authorName} • ${date}</span>
+                </div>
+            `;
+            galleryGrid.appendChild(div);
+        }
+        
+    } catch (err) {
+        console.error('Ошибка:', err);
+        loading.style.display = 'none';
+        error.style.display = 'block';
+        error.textContent = 'Ошибка загрузки: ' + err.message;
     }
 }
 

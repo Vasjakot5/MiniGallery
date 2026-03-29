@@ -60,6 +60,7 @@ func main() {
 
 	api.HandleFunc("/register", authHandler.Register).Methods("POST")
 	api.HandleFunc("/login", authHandler.Login).Methods("POST")
+	api.HandleFunc("/logout", authHandler.Logout).Methods("POST")
 	api.HandleFunc("/users", userHandler.GetAllUsers).Methods("GET")
 	api.HandleFunc("/users/{id}", userHandler.GetUserByID).Methods("GET")
 	api.HandleFunc("/categories", categoryHandler.GetAllCategories).Methods("GET")

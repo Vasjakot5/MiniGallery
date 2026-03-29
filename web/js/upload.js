@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     loadCategories();
+    
+    const form = document.getElementById('upload-form');
+    if (form) {
+        form.addEventListener('submit', handleSubmit);
+    }
 });
 
 async function loadCategories() {
@@ -16,26 +21,30 @@ async function loadCategories() {
         const categories = await response.json();
         
         const select = document.getElementById('category');
-        select.innerHTML = '<option value="">Выберите категорию</option>';
-        
-        categories.forEach(cat => {
-            const option = document.createElement('option');
-            option.value = cat.id;
-            option.textContent = cat.name;
-            select.appendChild(option);
-        });
+        if (select) {
+            select.innerHTML = '<option value="">Выберите категорию</option>';
+            categories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.id;
+                option.textContent = cat.name;
+                select.appendChild(option);
+            });
+        }
     } catch (error) {
         console.error('Ошибка загрузки категорий:', error);
     }
 }
 
-document.getElementById('image').addEventListener('change', function(e) {
+document.getElementById('image')?.addEventListener('change', function(e) {
     const file = e.target.files[0];
+    const previewContainer = document.getElementById('preview-container');
+    const imagePreview = document.getElementById('image-preview');
+    
     if (file) {
         if (file.size > 5 * 1024 * 1024) {
             showMessage('Файл слишком большой. Максимальный размер 5 MB', 'error');
             this.value = '';
-            document.getElementById('preview-container').style.display = 'none';
+            previewContainer.style.display = 'none';
             return;
         }
         
@@ -43,41 +52,65 @@ document.getElementById('image').addEventListener('change', function(e) {
         if (!validTypes.includes(file.type)) {
             showMessage('Неверный формат. Допустимы: JPG, PNG, WEBP', 'error');
             this.value = '';
-            document.getElementById('preview-container').style.display = 'none';
+            previewContainer.style.display = 'none';
             return;
         }
         
         const reader = new FileReader();
         reader.onload = function(e) {
-            document.getElementById('image-preview').src = e.target.result;
-            document.getElementById('preview-container').style.display = 'block';
+            imagePreview.src = e.target.result;
+            previewContainer.style.display = 'block';
         };
         reader.readAsDataURL(file);
     }
 });
 
-document.getElementById('upload-form').addEventListener('submit', async function(e) {
+async function handleSubmit(e) {
     e.preventDefault();
     
     const token = localStorage.getItem('token');
-    if (!token) {
-        window.location.href = '/web/pages/login.html';
+    const submitBtn = document.getElementById('submit-btn');
+    const progressBar = document.getElementById('progress-bar');
+    const progressFill = document.getElementById('progress-fill');
+    
+    const title = document.getElementById('title').value;
+    const description = document.getElementById('description').value;
+    const categoryId = document.getElementById('category').value;
+    const imageFile = document.getElementById('image').files[0];
+    
+    if (!title) {
+        showMessage('Введите название', 'error');
+        return;
+    }
+    
+    if (!categoryId) {
+        showMessage('Выберите категорию', 'error');
+        return;
+    }
+    
+    if (!imageFile) {
+        showMessage('Выберите файл изображения', 'error');
         return;
     }
     
     const formData = new FormData();
-    formData.append('title', document.getElementById('title').value);
-    formData.append('description', document.getElementById('description').value);
-    formData.append('category_id', document.getElementById('category').value);
-    formData.append('image', document.getElementById('image').files[0]);
-    
-    const progressBar = document.getElementById('progress-bar');
-    const progressFill = document.getElementById('progress-fill');
-    const submitBtn = document.getElementById('submit-btn');
+    formData.append('title', title);
+    formData.append('description', description || '');
+    formData.append('category_id', categoryId);
+    formData.append('image', imageFile);
     
     progressBar.style.display = 'block';
+    progressFill.style.width = '0%';
     submitBtn.disabled = true;
     submitBtn.textContent = 'Загрузка...';
+    
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += 10;
+        if (progress <= 90) {
+            progressFill.style.width = progress + '%';
+        }
+    }, 200);
     
     try {
         const response = await fetch('/api/images/upload', {
@@ -88,12 +121,16 @@ document.getElementById('upload-form').addEventListener('submit', async function
             body: formData
         });
         
+        clearInterval(interval);
+        
         if (!response.ok) {
-            throw new Error('Ошибка при загрузке');
+            const errorText = await response.text();
+            throw new Error(errorText || 'Ошибка загрузки');
         }
         
         const result = await response.json();
         
+        progressFill.style.width = '100%';
         showMessage('Изображение успешно загружено!', 'success');
         
         document.getElementById('upload-form').reset();
@@ -101,24 +138,26 @@ document.getElementById('upload-form').addEventListener('submit', async function
         
         setTimeout(() => {
             window.location.href = '/web/pages/index.html';
-        }, 2000);
+        }, 1500);
         
     } catch (error) {
-        showMessage('Ошибка: ' + error.message, 'error');
-    } finally {
+        clearInterval(interval);
         progressBar.style.display = 'none';
+        showMessage('Ошибка: ' + error.message, 'error');
         submitBtn.disabled = false;
         submitBtn.textContent = 'Загрузить';
     }
-});
+}
 
 function showMessage(text, type) {
-    const message = document.getElementById('upload-message');
-    message.textContent = text;
-    message.className = `message ${type}`;
-    message.style.display = 'block';
+    const messageDiv = document.getElementById('upload-message');
+    if (!messageDiv) return;
+    
+    messageDiv.textContent = text;
+    messageDiv.className = `message ${type}`;
+    messageDiv.style.display = 'block';
     
     setTimeout(() => {
-        message.style.display = 'none';
+        messageDiv.style.display = 'none';
     }, 5000);
 }

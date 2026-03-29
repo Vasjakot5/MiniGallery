@@ -203,7 +203,18 @@ func (h *ImageHandler) UpdateImage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if image.UploadedBy != userID {
+	// Получаем информацию о текущем пользователе
+	user, err := h.repo.GetUserByID(userID)
+	if err != nil {
+		http.Error(w, "Ошибка при проверке прав", http.StatusInternalServerError)
+		return
+	}
+
+	// Проверка прав: владелец ИЛИ админ
+	isOwner := image.UploadedBy == userID
+	isAdmin := user != nil && user.Role == "admin"
+
+	if !isOwner && !isAdmin {
 		http.Error(w, "Нет прав для редактирования", http.StatusForbidden)
 		return
 	}
@@ -294,14 +305,25 @@ func (h *ImageHandler) DeleteImage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if image.UploadedBy != userID {
+	user, err := h.repo.GetUserByID(userID)
+	if err != nil {
+		http.Error(w, "Ошибка при проверке прав", http.StatusInternalServerError)
+		return
+	}
+
+	isOwner := image.UploadedBy == userID
+	isAdmin := user != nil && user.Role == "admin"
+
+	if !isOwner && !isAdmin {
 		http.Error(w, "Нет прав для удаления", http.StatusForbidden)
 		return
 	}
 
 	filename := filepath.Base(image.FilePath)
 	filePath := filepath.Join(h.uploadPath, filename)
-	os.Remove(filePath)
+	if err := os.Remove(filePath); err != nil {
+		fmt.Printf("Ошибка удаления файла %s: %v\n", filePath, err)
+	}
 
 	err = h.repo.DeleteImage(id)
 	if err != nil {

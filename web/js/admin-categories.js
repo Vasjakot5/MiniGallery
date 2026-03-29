@@ -131,9 +131,9 @@ function editCategory(id) {
 
 async function saveCategory(id) {
     const row = document.querySelector(`tr[data-id="${id}"]`);
-    const nameSpan = row.querySelector('.category-name');
     const editInput = row.querySelector('.edit-input');
     const newName = editInput.value.trim();
+    const saveBtn = row.querySelector('.btn-save-category');
     
     if (!newName) {
         showMessage('Название не может быть пустым', 'error');
@@ -141,6 +141,10 @@ async function saveCategory(id) {
     }
     
     const token = localStorage.getItem('token');
+
+    const originalText = saveBtn.textContent;
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Сохранение...';
     
     try {
         const response = await fetch(`/api/categories/${id}`, {
@@ -160,14 +164,11 @@ async function saveCategory(id) {
         loadCategories();
         
     } catch (error) {
-        console.error('Ошибка:', error);
+        saveBtn.disabled = false;
+        saveBtn.textContent = originalText;
         showMessage('Ошибка: ' + error.message, 'error');
         cancelEdit(id);
     }
-}
-
-function cancelEdit(id) {
-    loadCategories();
 }
 
 async function deleteCategory(id, imageCount) {
@@ -181,6 +182,11 @@ async function deleteCategory(id, imageCount) {
     }
     
     const token = localStorage.getItem('token');
+    const deleteBtn = document.querySelector(`tr[data-id="${id}"] .btn-delete-category`);
+    
+    const originalText = deleteBtn.textContent;
+    deleteBtn.disabled = true;
+    deleteBtn.textContent = 'Удаление...';
     
     try {
         const response = await fetch(`/api/categories/${id}`, {
@@ -198,9 +204,14 @@ async function deleteCategory(id, imageCount) {
         loadCategories();
         
     } catch (error) {
-        console.error('Ошибка:', error);
+        deleteBtn.disabled = false;
+        deleteBtn.textContent = originalText;
         showMessage('Ошибка: ' + error.message, 'error');
     }
+}
+
+function cancelEdit(id) {
+    loadCategories();
 }
 
 function showMessage(text, type) {
