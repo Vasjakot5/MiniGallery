@@ -36,7 +36,7 @@ COPY public.categories (id, name) FROM stdin;
 COPY public.users (id, name, password, role) FROM stdin;
 2	VasyaCat	37770c47dd3e19157cf70a07bb49abc3170c1b8278d9f8de886db455031e7f4e	user
 1	AdminMiniGallery	815aeee84c5eab50cf85c658a5744bc5124980ce6a81f7045eb1460979998f91	admin
-3	User	b512d97e7cbf97c273e4db073bbb547aa65a84589227f8f3d9e4a72b9372a24d	user
+4	Remy	fb95c4f2eca12cd263f4e3346f73ad5b509105a30b2f3bd9da77ca2ba56f1b8f	user
 \.
 
 
@@ -45,7 +45,11 @@ COPY public.users (id, name, password, role) FROM stdin;
 --
 
 COPY public.images (id, title, description, file_path, category_id, uploaded_by, created_at) FROM stdin;
+36	Большой шлёпа!		/uploads/images/2_1774806681716027400.webp	4	2	2026-03-29 20:51:21.722611
+37	Пётр I	Последний царь и первый император	/uploads/images/4_1774806815622902300.webp	3	4	2026-03-29 20:53:35.650764
 32	Церковь Покрова на Нерли	Белокаменный православный храм во Владимирской области	/uploads/images/2_1774794972154345000.webp	6	2	2026-03-29 17:36:12.165728
+35	Закат в Кургане	Люблю смотреть закаты над любимым Курганом!	/uploads/images/4_1774806609051344300.webp	2	4	2026-03-29 20:50:09.066007
+38	Берёзовая роща	Далматово	/uploads/images/2_1774806961578472300.jpeg	1	2	2026-03-29 20:56:01.582184
 \.
 
 
@@ -60,14 +64,14 @@ SELECT pg_catalog.setval('public."Category_id_seq"', 7, true);
 -- Name: Image_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Image_id_seq"', 34, true);
+SELECT pg_catalog.setval('public."Image_id_seq"', 38, true);
 
 
 --
 -- Name: User_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."User_id_seq"', 3, true);
+SELECT pg_catalog.setval('public."User_id_seq"', 4, true);
 
 
 --
