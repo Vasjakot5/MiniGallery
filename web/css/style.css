@@ -21,7 +21,6 @@ body {
     width: 100%;
 }
 
-/* Header */
 header {
     background-color: #fff;
     border-bottom: 1px solid #e0e0e0;
@@ -45,6 +44,8 @@ nav ul {
     display: flex;
     list-style: none;
     gap: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 nav a {
@@ -53,6 +54,7 @@ nav a {
     padding: 8px 16px;
     border-radius: 6px;
     font-size: 0.9rem;
+    display: inline-block;
 }
 
 nav a:hover {
@@ -64,13 +66,11 @@ nav a.active {
     color: white;
 }
 
-/* Main - растягивается на всю высоту */
 main {
     flex: 1;
     padding: 30px 0;
 }
 
-/* Filters */
 .filters {
     background: white;
     padding: 20px;
@@ -115,14 +115,12 @@ main {
     border-color: #007bff;
 }
 
-/* Gallery Grid */
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
 }
 
-/* Image Card */
 .image-card {
     background: white;
     border-radius: 8px;
@@ -137,7 +135,7 @@ main {
 
 .image-card img {
     width: 100%;
-    height: 180px;
+    height: 200px;
     object-fit: cover;
     cursor: pointer;
 }
@@ -150,12 +148,14 @@ main {
     font-size: 1rem;
     margin-bottom: 5px;
     color: #333;
+    word-break: break-word;
 }
 
 .image-info p {
     font-size: 0.8rem;
     color: #777;
     margin-bottom: 8px;
+    word-break: break-word;
 }
 
 .image-info .category {
@@ -175,12 +175,12 @@ main {
     margin-left: 8px;
 }
 
-/* Buttons */
 .image-actions {
     padding: 10px 12px;
     border-top: 1px solid #eee;
     display: flex;
     gap: 8px;
+    flex-wrap: wrap;
 }
 
 button {
@@ -218,7 +218,6 @@ button:hover {
     padding: 10px 20px;
 }
 
-/* States */
 .loading, .error, .empty {
     text-align: center;
     padding: 40px;
@@ -235,7 +234,6 @@ button:hover {
     color: #999;
 }
 
-/* Footer */
 footer {
     background-color: #fff;
     border-top: 1px solid #e0e0e0;
@@ -245,7 +243,6 @@ footer {
     color: #888;
 }
 
-/* Form styles */
 .form-group {
     margin-bottom: 15px;
 }
@@ -275,7 +272,6 @@ footer {
     border-color: #007bff;
 }
 
-/* Login Page */
 .auth-container {
     max-width: 400px;
     margin: 0 auto;
@@ -290,6 +286,7 @@ footer {
     gap: 10px;
     margin-bottom: 25px;
     border-bottom: 1px solid #eee;
+    flex-wrap: wrap;
 }
 
 .auth-tab {
@@ -315,7 +312,6 @@ footer {
     display: block;
 }
 
-/* Upload Page */
 .upload-container {
     max-width: 600px;
     margin: 0 auto;
@@ -336,6 +332,7 @@ footer {
 .upload-preview img {
     max-width: 100%;
     max-height: 200px;
+    object-fit: contain;
 }
 
 .progress-bar {
@@ -374,7 +371,6 @@ footer {
     border: 1px solid #f5c6cb;
 }
 
-/* User menu */
 .user-menu {
     display: flex;
     align-items: center;
@@ -388,10 +384,14 @@ footer {
 .user-dropdown-btn {
     background: #e9ecef;
     border: 1px solid #ddd;
-    padding: 6px 12px;
+    padding: 8px 12px;
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.85rem;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .user-dropdown-content {
@@ -405,22 +405,38 @@ footer {
     border-radius: 6px;
     overflow: hidden;
     z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .user-dropdown-content a {
     display: block;
-    padding: 8px 12px;
+    padding: 10px 12px;
     text-decoration: none;
     color: #333;
     font-size: 0.85rem;
+    transition: background 0.2s;
 }
 
 .user-dropdown-content a:hover {
     background: #f5f5f5;
 }
 
-.user-dropdown:hover .user-dropdown-content {
-    display: block;
+@media (min-width: 769px) {
+    .user-dropdown:hover .user-dropdown-content {
+        display: block;
+    }
+}
+
+@media (max-width: 768px) {
+    .user-dropdown-content {
+        right: auto;
+        left: 0;
+    }
+    
+    .user-dropdown-btn {
+        width: 100%;
+        justify-content: center;
+    }
 }
 
 .btn-login {
@@ -430,14 +446,15 @@ footer {
     text-decoration: none;
     border-radius: 6px;
     font-size: 0.85rem;
+    white-space: nowrap;
 }
 
-/* Admin table */
 .admin-container {
     background: white;
     padding: 20px;
     border-radius: 8px;
     border: 1px solid #e0e0e0;
+    overflow-x: auto;
 }
 
 .add-category-section {
@@ -451,16 +468,19 @@ footer {
     display: flex;
     gap: 10px;
     margin: 0;
+    flex-wrap: wrap;
 }
 
 .add-category-section input {
     flex: 1;
+    min-width: 200px;
 }
 
 .admin-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.85rem;
+    min-width: 500px;
 }
 
 .admin-table th,
@@ -482,6 +502,7 @@ footer {
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.75rem;
+    margin: 2px;
 }
 
 .btn-delete-category {
@@ -492,11 +513,12 @@ footer {
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.75rem;
+    margin: 2px;
 }
 
-/* View image */
 .view-container {
-    max-width: 900px;
+    max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
     background: white;
     border-radius: 8px;
@@ -508,11 +530,16 @@ footer {
     text-align: center;
     padding: 20px;
     background: #fafafa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .full-image {
     max-width: 100%;
-    max-height: 500px;
+    max-height: 70vh;
+    width: auto;
+    height: auto;
     object-fit: contain;
 }
 
@@ -523,6 +550,7 @@ footer {
 .image-title {
     font-size: 1.3rem;
     margin-bottom: 10px;
+    word-break: break-word;
 }
 
 .image-meta {
@@ -533,9 +561,22 @@ footer {
     color: #777;
     padding-bottom: 10px;
     border-bottom: 1px solid #eee;
+    flex-wrap: wrap;
 }
 
-/* Spinner */
+.image-description {
+    word-break: break-word;
+    line-height: 1.6;
+}
+
+.image-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
 .spinner {
     width: 40px;
     height: 40px;
@@ -550,28 +591,6 @@ footer {
     to { transform: rotate(360deg); }
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    header .container {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    nav ul {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    
-    .filter-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .gallery-grid {
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    }
-}
-
-/* Кнопки для view-image */
 .btn-back {
     background-color: #6c757d;
     color: white;
@@ -589,39 +608,6 @@ footer {
     opacity: 0.85;
 }
 
-.btn-edit {
-    background-color: #ffc107;
-    color: #333;
-    padding: 10px 24px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    text-decoration: none;
-    display: inline-block;
-    transition: opacity 0.2s;
-}
-
-.btn-edit:hover {
-    opacity: 0.85;
-}
-
-.btn-delete {
-    background-color: #dc3545;
-    color: white;
-    padding: 10px 24px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: opacity 0.2s;
-}
-
-.btn-delete:hover {
-    opacity: 0.85;
-}
-
-/* Кнопка загрузить первое фото на странице my-images */
 .empty .btn-primary {
     display: inline-block;
     background-color: #007bff;
@@ -640,7 +626,6 @@ footer {
     opacity: 0.85;
 }
 
-/* Дополнительно: кнопка входа на странице логина */
 .btn-login-page {
     width: 100%;
     background-color: #007bff;
@@ -657,7 +642,6 @@ footer {
     opacity: 0.85;
 }
 
-/* Кнопка регистрации */
 .btn-register {
     width: 100%;
     background-color: #28a745;
@@ -688,4 +672,174 @@ footer {
 
 .btn-upload:hover {
     opacity: 0.85;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    nav ul {
+        justify-content: center;
+    }
+    
+    nav a {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .filter-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+    }
+    
+    .image-card img {
+        height: 180px;
+    }
+    
+    .auth-container {
+        margin: 20px;
+        padding: 20px;
+    }
+    
+    .upload-container {
+        margin: 20px;
+        padding: 20px;
+    }
+    
+    .admin-container {
+        padding: 15px;
+    }
+    
+    .add-category-section .form-group {
+        flex-direction: column;
+    }
+    
+    .add-category-section input {
+        width: 100%;
+    }
+    
+    .add-category-section button {
+        width: 100%;
+    }
+    
+    .admin-table {
+        font-size: 0.75rem;
+    }
+    
+    .admin-table th,
+    .admin-table td {
+        padding: 8px;
+    }
+    
+    .btn-edit-category,
+    .btn-delete-category {
+        padding: 4px 8px;
+        font-size: 0.7rem;
+    }
+    
+    .image-section {
+        padding: 15px;
+    }
+    
+    .full-image {
+        max-height: 50vh;
+    }
+    
+    .details-section {
+        padding: 15px;
+    }
+    
+    .image-title {
+        font-size: 1.1rem;
+    }
+    
+    .image-meta {
+        gap: 10px;
+        font-size: 0.7rem;
+    }
+    
+    .image-actions {
+        gap: 10px;
+    }
+    
+    .btn-back,
+    .btn-edit,
+    .btn-delete {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .auth-tabs {
+        flex-direction: column;
+        border-bottom: none;
+        gap: 5px;
+    }
+    
+    .auth-tab {
+        border: 1px solid #ddd;
+        border-radius: 6px;
+    }
+    
+    .auth-tab.active {
+        border: 1px solid #007bff;
+        margin-bottom: 0;
+    }
+    
+    .image-actions {
+        flex-direction: column;
+    }
+    
+    .btn-back,
+    .btn-edit,
+    .btn-delete {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .user-menu {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .user-dropdown {
+        width: 100%;
+    }
+    
+    .user-dropdown-btn {
+        width: 100%;
+    }
+    
+    .btn-login {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.btn-edit {
+    background-color: #ffc107;
+    color: #333;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.2s;
 }
