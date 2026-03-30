@@ -7,10 +7,7 @@ async function loadHeader() {
             <header>
                 <div class="container">
                     <div class="logo">
-                    <h1>
-                        <img src="/web/images/icon.png" alt="Gallery" style="width: 80px; height: 50px; vertical-align: middle; margin-right: 10px;">
-                        Mini Gallery
-                    </h1>
+                        <h1>Mini Gallery</h1>
                     </div>
                     <nav>
                         <ul>
@@ -19,15 +16,15 @@ async function loadHeader() {
         
         if (token && user) {
             headerHTML += `
-                            <li><a href="/web/pages/upload.html" class="nav-link" data-page="upload">Загрузка изображения</a></li>
-                            <li><a href="/web/pages/my-images.html" class="nav-link" data-page="my-images">Мои изображения</a></li>
-            `
+                            <li><a href="/web/pages/upload.html" class="nav-link" data-page="upload">Загрузить</a></li>
+                            <li><a href="/web/pages/my-images.html" class="nav-link" data-page="my-images">Мои фото</a></li>
+            `;
+            
             if (user.role === 'admin') {
                 headerHTML += `
-                            <li><a href="/web/pages/admin/categories.html" class="nav-link" data-page="categories">Управление категориями</a></li>
+                            <li><a href="/web/pages/admin/categories.html" class="nav-link" data-page="categories">Категории</a></li>
                 `;
             }
-            ;
         }
         
         headerHTML += `
@@ -38,9 +35,9 @@ async function loadHeader() {
         
         if (token && user) {
             headerHTML += `
-                        <div class="user-dropdown">
-                            <button class="user-dropdown-btn">${user.name}</button>
-                            <div class="user-dropdown-content">
+                        <div class="user-dropdown" id="user-dropdown">
+                            <button class="user-dropdown-btn" id="user-dropdown-btn">${user.name} ▼</button>
+                            <div class="user-dropdown-content" id="user-dropdown-content">
                                 <a href="#" id="logout-link">Выйти</a>
                             </div>
                         </div>
@@ -63,6 +60,27 @@ async function loadHeader() {
         }
         
         document.body.insertAdjacentHTML('afterbegin', headerHTML);
+        
+        const dropdownBtn = document.getElementById('user-dropdown-btn');
+        const dropdownContent = document.getElementById('user-dropdown-content');
+        const dropdown = document.getElementById('user-dropdown');
+        
+        if (dropdownBtn && dropdownContent) {
+            document.addEventListener('click', function(e) {
+                if (dropdown && !dropdown.contains(e.target)) {
+                    dropdownContent.style.display = 'none';
+                }
+            });
+            
+            dropdownBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (dropdownContent.style.display === 'block') {
+                    dropdownContent.style.display = 'none';
+                } else {
+                    dropdownContent.style.display = 'block';
+                }
+            });
+        }
         
         const logoutBtn = document.getElementById('logout-link');
         if (logoutBtn) {
