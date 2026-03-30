@@ -16,7 +16,7 @@ async function loadHeader() {
         
         if (token && user) {
             headerHTML += `
-                            <li><a href="/web/pages/upload.html" class="nav-link" data-page="upload">Загрузить изображения</a></li>
+                            <li><a href="/web/pages/upload.html" class="nav-link" data-page="upload">Загрузить изображение</a></li>
                             <li><a href="/web/pages/my-images.html" class="nav-link" data-page="my-images">Мои изображения</a></li>
             `;
             
