@@ -308,6 +308,10 @@ footer {
     display: none;
 }
 
+.auth-form h2 {
+    text-align: center;
+}
+
 .auth-form.active {
     display: block;
 }
@@ -319,6 +323,10 @@ footer {
     padding: 30px;
     border-radius: 8px;
     border: 1px solid #e0e0e0;
+}
+
+.upload-container h2{
+    text-align: center;
 }
 
 .upload-preview {
@@ -448,6 +456,7 @@ footer {
     font-size: 0.85rem;
     white-space: nowrap;
 }
+
 
 .admin-container {
     background: white;
