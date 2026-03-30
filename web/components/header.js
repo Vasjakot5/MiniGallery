@@ -7,7 +7,7 @@ async function loadHeader() {
             <header>
                 <div class="container">
                     <div class="logo">
-                        <h1>Mini Gallery</h1>
+                        <h1><img src="/web/images/icon.png" alt="Gallery" style="width: 65px; height: 50px; vertical-align: middle; margin-right: 10px;">Mini Gallery</h1>
                     </div>
                     <nav>
                         <ul>
@@ -16,13 +16,13 @@ async function loadHeader() {
         
         if (token && user) {
             headerHTML += `
-                            <li><a href="/web/pages/upload.html" class="nav-link" data-page="upload">Загрузить</a></li>
-                            <li><a href="/web/pages/my-images.html" class="nav-link" data-page="my-images">Мои фото</a></li>
+                            <li><a href="/web/pages/upload.html" class="nav-link" data-page="upload">Загрузить изображения</a></li>
+                            <li><a href="/web/pages/my-images.html" class="nav-link" data-page="my-images">Мои изображения</a></li>
             `;
             
             if (user.role === 'admin') {
                 headerHTML += `
-                            <li><a href="/web/pages/admin/categories.html" class="nav-link" data-page="categories">Категории</a></li>
+                            <li><a href="/web/pages/admin/categories.html" class="nav-link" data-page="categories">Управление категориями</a></li>
                 `;
             }
         }
